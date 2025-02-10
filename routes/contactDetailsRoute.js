@@ -11,6 +11,8 @@ import {
     searchContactByEmailOrName } 
 from "../controllers/contactDetailsController.js"
 
+import {body, param} from "express-validator"
+
 
 
 const contactRouter = express.Router()
@@ -20,11 +22,22 @@ const contactRouter = express.Router()
 contactRouter.get("/contacts", getAllContactDetails)
 
 //Route for fetching a Contact details by ID
-contactRouter.get("/contacts/:id", getContactDetailsByID)
+contactRouter.get("/contacts/:id",param("id").isMongoId(), getContactDetailsByID)
 
 
 // Route for Creating new Contact
-contactRouter.post("/contacts", getAllContactDetails)
+
+// Kindly check below these for understanding the syntax
+
+// body("name").notEmpty() → Ensures name is not empty.
+// body("email").isEmail() → Ensures email is in a valid format.
+// body("phone").notEmpty() → Ensures phone is not empty.
+
+contactRouter.post("/contacts", [
+    body("name").notEmpty().withMessage("Name is required"),
+    body("email").isEmail().withMessage("Invalid email format"),
+    body("phone").notEmpty().withMessage("Phone number is required"),
+  ], getAllContactDetails)
 
 // Route for updating the existing Contact by ID
 contactRouter.put("/contacts/:id", updateExistingContactByID)
