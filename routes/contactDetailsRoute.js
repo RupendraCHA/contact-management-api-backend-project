@@ -23,7 +23,7 @@ contactRouter.get("/contacts", getAllContactDetails)
 
 //Route for fetching a Contact details by ID
 contactRouter.get("/contacts/:id",param("id").isMongoId(), getContactDetailsByID)
-
+// param("id").isMongoId(),
 
 // Route for Creating new Contact
 
@@ -37,9 +37,9 @@ contactRouter.post("/contacts", [
     body("name").notEmpty().withMessage("Name is required"),
     body("email").isEmail().withMessage("Invalid email format"),
     body("phone").notEmpty().withMessage("Phone number is required"),
-  ], getAllContactDetails)
+  ], createNewContact)
 
-  
+
 // Route for updating the existing Contact by ID
 contactRouter.put("/contacts/:id",param("id").isMongoId(), updateExistingContactByID)
 

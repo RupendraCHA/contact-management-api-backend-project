@@ -9,47 +9,65 @@ import { validationResult } from "express-validator";
 export const getAllContactDetails = async (req, res) => {
     try {
         const contacts = await ContactModel.find()
-        res.status(200).json(contacts)
+        res.status(200).json({totalContacts: contacts.length, allContacts:  contacts})
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
+        return res.status(500).json({ message: "Server Error - Invalid ID" });
+
     }
 }
 
 export const getContactDetailsByID = async (req, res) => {
+
     try {
-        const contact = await ContactModel.findById(req.params.id)
+        const {id} = req.params
+        
+        const contact = await ContactModel.findOne({_id: id})
         if (!contact) return res.status(404).json({ message: "Contact not found" });
-        res.status(200).json(contact);
+        return res.status(200).json(contact);
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
+        return res.status(500).json({ message: "Server Error - Invalid ID" });
     }
 }
 
 // Controller for creating a new contact
 export const createNewContact = async (req, res) => {
 
+    const {name, email, phone} = req.body
     const errors = validationResult(req)
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
+    const contact = await ContactModel.findOne({email})
+    // console.log(contact)
+
+    if (contact) return res.json({message: `This Email already exists! - ${contact.email}`})
+
     try {
         const newContact = new ContactModel(req.body)
-        await createNewContact.save()
-        res.status(201).json(newContact);
+        await newContact.save()
+        return res.status(201).json({message: "Contact created Successfully",contact: newContact});
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
+        return res.status(500).json({ message: "Server Error - provide correct details" });
+        
     }
 }
 
 // Controller for updating a existing contact by ID
 export const updateExistingContactByID = async (req, res) => {
     try {
+
+        const contact = await ContactModel.findOne({_id: req.params.id})
+        console.log(contact)
+        if (!contact) return res.status(404).json({ message: "Contact not found" });
+
+
         const updatedContact = await ContactModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!updatedContact) return res.status(404).json({ message: "Contact not found" });
         res.status(200).json(updatedContact);
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
+        return res.status(500).json({ message: "Server Error - Invalid ID" });
+
     }
 }
+
 
 // Controller for deleting a contact by ID
 export const deleteContactByID = async (req, res) => {
@@ -59,7 +77,8 @@ export const deleteContactByID = async (req, res) => {
         res.status(200).json({ message: "Contact deleted successfully" });
       } 
       catch (error) {
-        res.status(500).json({ message: "Server Error" });
+        return res.status(500).json({ message: "Server Error - Invalid ID" });
+
       }
 }
 
@@ -76,20 +95,32 @@ export const deleteContactByID = async (req, res) => {
 // $regex: query - This applies a regular expression (pattern matching) to search for the given query in both the name and email fields.
 // $options: "i" - The "i" flag makes the search case-insensitive, meaning "John" and "john" will match the same results.
 // $or - Ensures that either name or email matches the given search term.
+
+// GET /contacts/search?query=alice
 export const searchContactByEmailOrName = async (req, res) => {
     try {
-        const { query } = req.query;
-        if (!query) return res.status(400).json({ message: "Search query is required" });
+        const query = req.query.query;
+        console.log("Query")
     
+        if (!query) {
+          return res.status(400).json({ message: "Query parameter is required" });
+        }
+    
+        // Simple search using case-insensitive regex for name and email
         const contacts = await ContactModel.find({
           $or: [
-            { name: { $regex: query, $options: "i" } },
-            { email: { $regex: query, $options: "i" } },
-          ],
+            { name: new RegExp(query, "i") },  // Case-insensitive search
+            { email: new RegExp(query, "i") }
+          ]
         });
+    
+        if (contacts.length === 0) {
+          return res.status(404).json({ message: "No contacts found" });
+        }
     
         res.status(200).json(contacts);
       } catch (error) {
-        res.status(500).json({ message: "Server Error" });
+        console.error("Error searching contacts:", error);
+        res.status(500).json({ message: "Internal Server Error" });
       }
 }
