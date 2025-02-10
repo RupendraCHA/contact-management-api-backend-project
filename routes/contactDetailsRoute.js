@@ -27,7 +27,7 @@ contactRouter.get("/contacts/:id",param("id").isMongoId(), getContactDetailsByID
 
 // Route for Creating new Contact
 
-// Kindly check below these for understanding the syntax
+// Kindly check below for understanding the syntax
 
 // body("name").notEmpty() → Ensures name is not empty.
 // body("email").isEmail() → Ensures email is in a valid format.
@@ -39,13 +39,14 @@ contactRouter.post("/contacts", [
     body("phone").notEmpty().withMessage("Phone number is required"),
   ], getAllContactDetails)
 
+  
 // Route for updating the existing Contact by ID
-contactRouter.put("/contacts/:id", updateExistingContactByID)
+contactRouter.put("/contacts/:id",param("id").isMongoId(), updateExistingContactByID)
 
 // Route for deleting a Contact by ID
-contactRouter.delete("/contacts/:id", deleteContactByID)
+contactRouter.delete("/contacts/:id",param("id").isMongoId(), deleteContactByID)
 
 // Route for searching a Contact by Email or Name
-contactRouter.delete("/contacts/search", searchContactByEmailOrName)
+contactRouter.get("/contacts/search", searchContactByEmailOrName)
 
 export default contactRouter
