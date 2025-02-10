@@ -32,7 +32,7 @@ export const createNewContact = async (req, res) => {
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
     try {
-        const neContact = new ContactModel(req.body)
+        const newContact = new ContactModel(req.body)
         await createNewContact.save()
         res.status(201).json(newContact);
     } catch (error) {
@@ -41,17 +41,55 @@ export const createNewContact = async (req, res) => {
 }
 
 // Controller for updating a existing contact by ID
-export const updateExistingContactByID = (req, res) => {
-
+export const updateExistingContactByID = async (req, res) => {
+    try {
+        const updatedContact = await ContactModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedContact) return res.status(404).json({ message: "Contact not found" });
+        res.status(200).json(updatedContact);
+    } catch (error) {
+        res.status(500).json({ message: "Server Error" });
+    }
 }
 
 // Controller for deleting a contact by ID
-export const deleteContactByID = (req, res) => {
-
+export const deleteContactByID = async (req, res) => {
+    try {
+        const deletedContact = await ContactModel.findByIdAndDelete(req.params.id);
+        if (!deletedContact) return res.status(404).json({ message: "Contact not found" });
+        res.status(200).json({ message: "Contact deleted successfully" });
+      } 
+      catch (error) {
+        res.status(500).json({ message: "Server Error" });
+      }
 }
 
 
-// Controller for deleting a contact by ID
-export const searchContactByEmailOrName = (req, res) => {
+// Controller for searching a contact by Email or Name
 
+// Kindly check below for the meaning of the syntax
+
+// $or: [
+//     { name: { $regex: query, $options: "i" } },
+//     { email: { $regex: query, $options: "i" } },
+//   ],
+
+// $regex: query - This applies a regular expression (pattern matching) to search for the given query in both the name and email fields.
+// $options: "i" - The "i" flag makes the search case-insensitive, meaning "John" and "john" will match the same results.
+// $or - Ensures that either name or email matches the given search term.
+export const searchContactByEmailOrName = async (req, res) => {
+    try {
+        const { query } = req.query;
+        if (!query) return res.status(400).json({ message: "Search query is required" });
+    
+        const contacts = await ContactModel.find({
+          $or: [
+            { name: { $regex: query, $options: "i" } },
+            { email: { $regex: query, $options: "i" } },
+          ],
+        });
+    
+        res.status(200).json(contacts);
+      } catch (error) {
+        res.status(500).json({ message: "Server Error" });
+      }
 }
