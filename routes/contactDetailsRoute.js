@@ -47,6 +47,6 @@ contactRouter.put("/contacts/:id",param("id").isMongoId(), updateExistingContact
 contactRouter.delete("/contacts/:id",param("id").isMongoId(), deleteContactByID)
 
 // Route for searching a Contact by Email or Name
-contactRouter.get("/contacts/search", searchContactByEmailOrName)
+contactRouter.get("/contacts/search/:query", searchContactByEmailOrName)
 
 export default contactRouter

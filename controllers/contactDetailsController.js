@@ -56,7 +56,6 @@ export const updateExistingContactByID = async (req, res) => {
     try {
 
         const contact = await ContactModel.findOne({_id: req.params.id})
-        console.log(contact)
         if (!contact) return res.status(404).json({ message: "Contact not found" });
 
 
@@ -99,17 +98,16 @@ export const deleteContactByID = async (req, res) => {
 // GET /contacts/search?query=alice
 export const searchContactByEmailOrName = async (req, res) => {
     try {
-        const query = req.query.query;
-        console.log("Query")
     
-        if (!query) {
-          return res.status(400).json({ message: "Query parameter is required" });
+        const query = req.params.query; // Extract query from route parameter
+        if (!query || query === "") {
+          return res.status(400).json({ message: "Search term is required" });
         }
     
-        // Simple search using case-insensitive regex for name and email
+        // Search in name or email
         const contacts = await ContactModel.find({
           $or: [
-            { name: new RegExp(query, "i") },  // Case-insensitive search
+            { name: new RegExp(query, "i") },
             { email: new RegExp(query, "i") }
           ]
         });
