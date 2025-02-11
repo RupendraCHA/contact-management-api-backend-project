@@ -15,3 +15,13 @@
 #### Input validation using express-validator
 #### Proper error handling & HTTP status codes
 #### Clean code practices with modular structure
+
+# Technologies Used
+
+#### Node.js & Express.js (Backend)
+
+#### MongoDB & Mongoose (Database)
+
+#### express-validator (Data validation)
+
+#### Git (Version control)
