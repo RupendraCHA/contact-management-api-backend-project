@@ -3,7 +3,13 @@
     
     Fetch all contacts: GET /api/v1/contacts
 
-    Fetch Contact by ID: GET api/v1/contacts/:id
+    Fetch Contact by ID: GET /api/v1/contacts/:id
+
+    Creating a New Contact: POST /api/v1/contacts
+
+## API Service Deployed on Render:
+
+#### Deployed URL: https://contact-management-api-backend-project.onrender.com/
 
 ## Overview
 
@@ -35,9 +41,14 @@
 
 ### 1. Fetch All Contacts
   ##### Added one more key indicating total Contacts present in database
+
     Endpoint: GET /api/v1/contacts
 
+  #### If Request Successful
+
     Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts
+
+    Status Code: 200 (ok)
     
     Response:
     {
@@ -63,10 +74,22 @@
         }
     ]
     }
+
+#### If any network errors etc are there:
+
+    Status Code: 500 (Internal Server Error)
+
+    Response: {"message": "Server Error"}
+    
 ### 2. Fetch Contact by ID
+
     Endpoint: GET api/v1/contacts/:id
 
+#### If ID exists
+
     Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/67aa699186562967948721a2
+
+    Status Code: 200 (ok)
     
     Response:
     {
@@ -82,6 +105,8 @@
   #### If ID not Found:
   
     Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/67aa69918656296794872abc
+
+    Status Code: 404 (Not Found)
     
     Response:
     {
@@ -91,8 +116,107 @@
   #### If ID Not provided or given random one  or not in format of Object ID in MOngoDB
   
     Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/123acbrt
+
+    Status Code: 500 (Internal Server Error)
     
     Response:
     {
     "message": "Server Error - Invalid ID"
     }
+
+### 3. Create a New Contact
+
+    Endpoint: POST /api/v1/contacts
+
+#### If all input fields given correctly
+
+
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts
+    
+    Request Body:
+        {
+      "name": "Sachin Tendulkar",
+      "email": "sachin@gmail.com",
+      "phone": "1112223333",
+      "address": "789 Road, Mumbai"
+        }
+
+    Status Code: 201 (Created)
+
+    Response: 
+        {
+        "message": "Contact created Successfully",
+        "contact": {
+            "name": "Sachin Tendulkar",
+            "email": "sachin@gmail.com",
+            "phone": "1112223333",
+            "address": "789 Road, Mumbai",
+            "_id": "67aaeaae22e7b18f19f04296",
+            "createdAt": "2025-02-11T06:14:06.340Z",
+            "__v": 0
+                }
+        }
+        
+
+#### If same email is sent in request body
+
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts
+
+    Request Body:
+        {
+      "name": "Sachin Tendulkar",
+      "email": "sachin@gmail.com",
+      "phone": "1112223333",
+      "address": "789 Road, Mumbai"
+        }
+
+    
+    Status Code: 409 (Conflict)
+    
+    Response: 
+        {
+            "message": "This Email already exists! - sachin@gmail.com"
+        }
+#### If request is sent with empty fields
+
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts
+
+    Request Body:
+        {
+      "name": "",
+      "email": "",
+      "phone": "",
+      "address": "789 Road, Mumbai"
+        }
+
+    
+    Status Code: 400 (Bad Request)
+
+    Response:
+        {
+    "errors": [
+        {
+            "type": "field",
+            "value": "",
+            "msg": "Name is required",
+            "path": "name",
+            "location": "body"
+        },
+        {
+            "type": "field",
+            "value": "",
+            "msg": "Invalid email format",
+            "path": "email",
+            "location": "body"
+        },
+        {
+            "type": "field",
+            "value": "",
+            "msg": "Phone number is required",
+            "path": "phone",
+            "location": "body"
+        }
+    ]
+    }
+
+        
