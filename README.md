@@ -13,7 +13,7 @@
 
     Delete a Contact by ID        :    DELETE /api/v1/contacts/:id
 
-    Search Contact by Emal on Name:    GET /api/v1/contacts/search/:query
+    Search Contact by Email on Name:    GET /api/v1/contacts/search/:query
 
 ## API Service Deployed on Render:
 
