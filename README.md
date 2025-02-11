@@ -60,7 +60,8 @@
 
     Node.js installed
 
-    MongoDB running locally or use a cloud database (MongoDB Atlas)
+    MongoDB running locally or use a cloud database (MongoDB Atlas) 
+    *I am used MongoDB Atlas*
 
 ### Steps to Run Locally
 
