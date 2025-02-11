@@ -10,6 +10,8 @@
 
     Updating a Existing Contact: PUT /api/v1/contacts/:id
 
+    Delete a Contact by ID: DELETE /api/v1/contacts/:id
+
 ## API Service Deployed on Render:
 
 #### Deployed URL: https://contact-management-api-backend-project.onrender.com/
@@ -277,4 +279,38 @@
     {
     "message": "Server Error - Invalid ID"
     }
-        
+
+### 4. Delete a Contact by ID
+    Endpoint: DELETE /api/v1/contacts/:id
+
+#### If ID Exists
+
+    Request: Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/67aa77234d7a4d09ad21da5f
+
+    Status Code: 200 (ok)
+
+    Response:
+        {
+    "message": "Contact deleted successfully"
+    }
+
+#### If ID doesn't exists
+
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/abaa77234d7a4d09ad21dacd
+
+    Status Code: 404 (Not Found)
+
+    Response:
+        {
+    "message": "Contact not found"
+    }
+#### If ID Not provided or given random one  or not in format of Object ID in MOngoDB
+  
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/123acbrt
+
+    Status Code: 500 (Internal Server Error)
+    
+    Response:
+    {
+    "message": "Server Error - Invalid ID"
+    }
