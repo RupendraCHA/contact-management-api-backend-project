@@ -44,6 +44,15 @@
 
 #### Git (Version control)
 
+# Project Structure
+    │-- 📂 controllers    # Business logic
+    │-- 📂 models         # Mongoose schemas
+    │-- 📂 routes         # API routes
+    │-- 📂 config         # Database configuration
+    │-- server.js          # Main server file
+    │-- package.json       # Dependencies
+    │-- .env               # Environment variables
+
 # Installation & Setup
 
 #### Prerequisites
@@ -56,7 +65,7 @@
 
 ##### Clone the repository:
 
-    git clone https://github.com/your-username/contact-management-api.git
+    git clone https://github.com/RupendraCHA/contact-management-api-backend-project.git
 
 ##### Install dependencies:
 
@@ -378,3 +387,12 @@
         {
             "message": "No contacts found"
         }
+# Future Enhancements
+
+#### Add authentication using JWT
+
+#### Implement pagination for large contact lists
+
+# Author
+
+### Developed by Rupendra Chandaluri.
