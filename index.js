@@ -16,7 +16,7 @@ app.use(cors())
 
 app.use("/api/v1", contactRouter)
 
-app.get("/start", (req, res) => {
+app.get("/", (req, res) => {
     res.send(`
           <!DOCTYPE html>
           <html>
