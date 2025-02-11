@@ -2,15 +2,17 @@
 ### Remainder Text: 
     to match API endpoints with industry standerds took liberty in creating like this: /api/v1/{given endpoint}
     
-    Fetch all contacts: GET /api/v1/contacts
+    Fetch all contacts            :    GET /api/v1/contacts
 
-    Fetch Contact by ID: GET /api/v1/contacts/:id
+    Fetch Contact by ID           :    GET /api/v1/contacts/:id
 
-    Creating a New Contact: POST /api/v1/contacts
+    Creating a New Contact        :    POST /api/v1/contacts
 
-    Updating a Existing Contact: PUT /api/v1/contacts/:id
+    Updating a Existing Contact   :    PUT /api/v1/contacts/:id
 
-    Delete a Contact by ID: DELETE /api/v1/contacts/:id
+    Delete a Contact by ID        :    DELETE /api/v1/contacts/:id
+
+    Search Contact by Emal on Name:    GET /api/v1/contacts/search/:query
 
 ## API Service Deployed on Render:
 
@@ -18,7 +20,7 @@
 
 ## Overview
 
-### The Contact Management API is a RESTful service built using Node.js and Express.js, with MongoDB as the database. This API allows users to perform CRUD operations on contacts, including searching by name or email.
+#### The Contact Management API is a RESTful service built using Node.js and Express.js, with MongoDB as the database. This API allows users to perform CRUD operations on contacts, including searching by name or email.
 
 # Features
 
@@ -41,6 +43,37 @@
 #### express-validator (Data validation)
 
 #### Git (Version control)
+
+# Installation & Setup
+
+#### Prerequisites
+
+    Node.js installed
+
+    MongoDB running locally or use a cloud database (MongoDB Atlas)
+
+### Steps to Run Locally
+
+##### Clone the repository:
+
+    git clone https://github.com/your-username/contact-management-api.git
+
+##### Install dependencies:
+
+    npm install
+
+##### Set up environment variables:
+
+    Create a .env file in the root directory and add:
+
+        MONGO_URI=mongodb://localhost:27017/contacts_db
+        PORT=5000 (any port number can be choosen)
+
+##### Start the server:
+
+    npm start
+
+##### API will run on Choosen port on localhost
 
 # API Endpoints
 
@@ -280,7 +313,7 @@
     "message": "Server Error - Invalid ID"
     }
 
-### 4. Delete a Contact by ID
+### 5. Delete a Contact by ID
     Endpoint: DELETE /api/v1/contacts/:id
 
 #### If ID Exists
@@ -314,3 +347,34 @@
     {
     "message": "Server Error - Invalid ID"
     }
+### Search Contact by Email or Name
+    Endpoint: GET /api/v1/contacts/search/:query
+
+#### If any text given after "/search/{text}" and that text matches with sequence of name or email - it returns respective contact details
+
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/search/tendul
+
+    Status Code: 200 (ok)
+
+    Response:
+        [
+            {
+                "_id": "67aaeaae22e7b18f19f04296",
+                "name": "Sachin Tendulkar",
+                "email": "sachin@gmail.com",
+                "phone": "1112223333",
+                "address": "789 Road, Mumbai",
+                "createdAt": "2025-02-11T06:14:06.340Z",
+                "__v": 0
+            }
+        ]
+#### If provided text doesn't match
+
+    Request: http://localhost:3001](https://contact-management-api-backend-project.onrender.com/api/v1/contacts/search/abc
+
+    Status Code: 404 (Bad Request)
+
+    Response:
+        {
+            "message": "No contacts found"
+        }
