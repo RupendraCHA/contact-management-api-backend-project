@@ -1,11 +1,14 @@
 # Contact Management API
-    Remainder: to match API endpoints with industry standerds took liberty in creating like this: /api/v1/{given endpoint}
+### Remainder Text: 
+    to match API endpoints with industry standerds took liberty in creating like this: /api/v1/{given endpoint}
     
     Fetch all contacts: GET /api/v1/contacts
 
     Fetch Contact by ID: GET /api/v1/contacts/:id
 
     Creating a New Contact: POST /api/v1/contacts
+
+    Updating a Existing Contact: PUT /api/v1/contacts/:id
 
 ## API Service Deployed on Render:
 
@@ -218,5 +221,60 @@
         }
     ]
     }
+### 4. Update a Contact
+    Endpoint: PUT /api/v1/contacts/:id
 
+#### If ID exists
+
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/67aa77234d7a4d09ad21da5f
+    
+    Request Body:
+        {
+        "name": "Alice Johnson",
+        "email": "aliceJohn@example.com",
+        "phone": "1112223333",
+        "address": "789 Road, TX"
+        }
+
+    Status Code: 200 (ok)
+
+    Response:
+        {
+    "_id": "67aa77234d7a4d09ad21da5f",
+    "name": "Alice Johnson",
+    "email": "aliceJohn@example.com",
+    "phone": "1112223333",
+    "address": "789 Road, TX",
+    "createdAt": "2025-02-10T22:01:07.221Z",
+    "__v": 0
+    }
+
+#### If ID doesn't exists
+
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/67aa77234d7a4d09ad21da5a
+    
+    Request Body:
+        {
+        "name": "Alice Johnson",
+        "email": "aliceJohn@example.com",
+        "phone": "1112223333",
+        "address": "789 Road, TX"
+        }
+
+    Status Code: 404 (Not Found)
+
+    Response:
+        {
+    "message": "Contact not found"
+    }
+#### If ID Not provided or given random one  or not in format of Object ID in MOngoDB
+  
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/123acbrt
+
+    Status Code: 500 (Internal Server Error)
+    
+    Response:
+    {
+    "message": "Server Error - Invalid ID"
+    }
         
