@@ -1,4 +1,9 @@
 # Contact Management API
+    Remainder: to match API endpoints with industry standerds took liberty in creating like this: /api/v1/{given endpoint}
+    
+    Fetch all contacts: GET /api/v1/contacts
+
+    Fetch Contact by ID: GET api/v1/contacts/:id
 
 ## Overview
 
@@ -54,4 +59,28 @@
             "__v": 0
         }
     ]
+    }
+### 2. Fetch Contact by ID
+    Endpoint: GET api/v1/contacts/:id
+    Response:
+    {
+    "_id": "67aa699186562967948721a2",
+    "name": "Alice Johnson",
+    "email": "alice1@example.com",
+    "phone": "1112223333",
+    "address": "789 Road, TX",
+    "createdAt": "2025-02-10T21:03:13.590Z",
+    "__v": 0
+    }
+
+  #### If ID not Found:
+    Response:
+    {
+    "message": "Contact not found"
+    }
+
+  #### If ID Not provided or given random one  or not in format of Object ID in MOngoDB
+    Response:
+    {
+    "message": "Server Error - Invalid ID"
     }
