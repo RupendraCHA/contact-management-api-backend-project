@@ -11,7 +11,7 @@ export const getAllContactDetails = async (req, res) => {
         const contacts = await ContactModel.find()
         res.status(200).json({totalContacts: contacts.length, allContacts:  contacts})
     } catch (error) {
-        return res.status(500).json({ message: "Server Error - Invalid ID" });
+        return res.status(500).json({ message: "Server Error" });
 
     }
 }
@@ -39,7 +39,7 @@ export const createNewContact = async (req, res) => {
     const contact = await ContactModel.findOne({email})
     // console.log(contact)
 
-    if (contact) return res.json({message: `This Email already exists! - ${contact.email}`})
+    if (contact) return res.status(409).json({message: `This Email already exists! - ${contact.email}`})
 
     try {
         const newContact = new ContactModel(req.body)
