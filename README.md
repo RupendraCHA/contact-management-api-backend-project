@@ -1,6 +1,7 @@
 # Contact Management API
-### Remainder Text: 
-    to match API endpoints with industry standerds took liberty in creating like this: /api/v1/{given endpoint}
+
+
+#### to match API endpoints with industry standerds took liberty in creating like this: /api/v1/{given endpoint}
     
     Fetch all contacts            :    GET /api/v1/contacts
 
