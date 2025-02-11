@@ -36,6 +36,9 @@
 ### 1. Fetch All Contacts
   ##### Added one more key indicating total Contacts present in database
     Endpoint: GET /api/v1/contacts
+
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts
+    
     Response:
     {
     "totalContacts": 2,
@@ -62,6 +65,9 @@
     }
 ### 2. Fetch Contact by ID
     Endpoint: GET api/v1/contacts/:id
+
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/67aa699186562967948721a2
+    
     Response:
     {
     "_id": "67aa699186562967948721a2",
@@ -74,12 +80,18 @@
     }
 
   #### If ID not Found:
+  
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/67aa69918656296794872abc
+    
     Response:
     {
     "message": "Contact not found"
     }
 
   #### If ID Not provided or given random one  or not in format of Object ID in MOngoDB
+  
+    Request: https://contact-management-api-backend-project.onrender.com/api/v1/contacts/123acbrt
+    
     Response:
     {
     "message": "Server Error - Invalid ID"
